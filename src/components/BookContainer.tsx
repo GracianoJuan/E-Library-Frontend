@@ -1,10 +1,21 @@
-import Image from "next/image";
+import BooksCarousel from "./Books.Carousel";
 
-export default function BookContainer() {
+interface Book {
+  id: string;
+  title: string;
+  image: string;
+}
+
+interface BookContainerProps {
+  title: string;
+  books: Book[];
+}
+
+export default function BookContainer({ title, books }: BookContainerProps) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-2">Book Container</h2>
-      <p className="text-gray-700">This is a book container component.</p>
+    <div className="py-6">
+      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      <BooksCarousel books={books} />
     </div>
   );
 };
