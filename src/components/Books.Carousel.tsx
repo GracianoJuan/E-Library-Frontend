@@ -32,42 +32,43 @@ export default function BooksCarousel({ books }: BooksCarouselProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative group">
       {/* navigation buttons */}
       <button
         onClick={() => scroll("left")}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-black/50 text-white"
+        className="absolute -left-6 md:-left-8 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl hover:scale-110 duration-200 flex items-center justify-center font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity"
       >
-        &lt;
+        &#8249;
       </button>
       <button
         onClick={() => scroll("right")}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-black/50 text-white"
+        className="absolute -right-6 md:-right-8 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl hover:scale-110 transition-all duration-200 flex items-center justify-center font-bold text-lg opacity-0 group-hover:opacity-100"
       >
-        &gt;
+        &#8250;
       </button>
 
       {/* scrollable area */}
       <div
         ref={carouselRef}
-        className="flex overflow-x-auto scroll-smooth space-x-4 py-4 scrollbar-hide"
+        className="flex overflow-x-auto gap-6 scroll-smooth pb-2 px-2"
       >
         {books.map((book) => (
           <Link
             key={book.id}
             href={`/books/${book.id}`}
-            className="min-w-[150px] flex-shrink-0"
+            className="shrink-0 w-48 h-72 relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-3 transition-all duration-300 group bg-white dark:bg-gray-800"
           >
-            <Image
-              src={book.image}
-              alt={book.title}
-              width={150}
-              height={220}
-              className="rounded-lg object-cover"
-            />
-            <p className="mt-2 text-center text-sm font-medium">
-              {book.title}
-            </p>
+            <div className="relative w-full h-full">
+              <Image
+                src={book.image}
+                alt={book.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <p className="text-white font-semibold text-sm line-clamp-3">{book.title}</p>
+              </div>
+            </div>
           </Link>
         ))}
       </div>

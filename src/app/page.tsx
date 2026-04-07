@@ -86,10 +86,28 @@ const mostLiked = [
 
 export default function Home() {
   return (
-    <main className="p-6 bg-gray-100 min-h-screen">
-      <BookContainer title="Recommendations" books={recommendedBooks} />
-      <BookContainer title="New Releases" books={newReleases} />
-      <BookContainer title="Most Liked" books={mostLiked} />
-    </main>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-black text-white py-16 md:py-24 px-4 -mx-4 md:-mx-12 mb-12 rounded-none md:rounded-2xl">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">
+            Welcome to E-Library ✨
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 animate-fade-in" style={{animationDelay: '0.1s'}}>
+            Discover thousands of books and find your next favorite read
+          </p>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 hover:shadow-lg transition-all duration-300 hover:scale-105">
+            Start Exploring
+          </button>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="space-y-16">
+        <BookContainer title="📚 Recommendations" books={recommendedBooks} />
+        <BookContainer title="✨ New Releases" books={newReleases} />
+        <BookContainer title="❤️ Most Liked" books={mostLiked} />
+      </div>
+    </div>
   );
 }
