@@ -7,17 +7,17 @@ export default function Navbar() {
                 <ul className="flex space-x-8">
                     <li>
                         <Link href="/" className="font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                            🏠 Home
+                            Home
                         </Link>
                     </li>
                     <li>
                         <Link href="/about" className="font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                            ℹ️ About
+                            About
                         </Link>
                     </li>
                     <li>
                         <Link href="/contact" className="font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
-                            ✉️ Contact
+                            Contact
                         </Link>
                     </li>
                 </ul>

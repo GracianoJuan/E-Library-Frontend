@@ -91,7 +91,7 @@ export default function Home() {
       <section className="bg-black text-white py-16 md:py-24 px-4 -mx-4 md:-mx-12 mb-12 rounded-none md:rounded-2xl">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">
-            Welcome to E-Library ✨
+            Welcome to E-Library
           </h1>
           <p className="text-xl md:text-2xl text-blue-100 mb-8 animate-fade-in" style={{animationDelay: '0.1s'}}>
             Discover thousands of books and find your next favorite read
@@ -104,9 +104,9 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="space-y-16">
-        <BookContainer title="📚 Recommendations" books={recommendedBooks} />
-        <BookContainer title="✨ New Releases" books={newReleases} />
-        <BookContainer title="❤️ Most Liked" books={mostLiked} />
+        <BookContainer title="Recommendations" books={recommendedBooks} />
+        <BookContainer title="New Releases" books={newReleases} />
+        <BookContainer title="Most Liked" books={mostLiked} />
       </div>
     </div>
   );
