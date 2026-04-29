@@ -96,9 +96,6 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-blue-100 mb-8 animate-fade-in" style={{animationDelay: '0.1s'}}>
             Discover thousands of books and find your next favorite read
           </p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 hover:shadow-lg transition-all duration-300 hover:scale-105">
-            Start Exploring
-          </button>
         </div>
       </section>
 

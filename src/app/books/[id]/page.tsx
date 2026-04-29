@@ -1,14 +1,15 @@
 "use client";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function BookDetail() {
     const params = useParams();
-    const { id } = params;
+    const bookId = Array.isArray(params.id) ? params.id[0] : params.id;
 
     // Mock book data - replace with API call
     const bookData = {
-        title: `Sample Book ${id}`,
+        title: `Sample Book ${bookId}`,
         author: "John Doe",
         publishedDate: "2024",
         category: "Fiction",
@@ -20,7 +21,6 @@ export default function BookDetail() {
 
     return (
         <div className="min-h-screen">
-            {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-8">
                 <a href="/" className="hover:text-blue-600 transition-colors">Home</a>
                 <span>/</span>
@@ -34,7 +34,7 @@ export default function BookDetail() {
                 {/* Book Cover */}
                 <div className="col-span-1">
                     <div className="sticky top-24 rounded-2xl overflow-hidden shadow-2xl">
-                        <div className="relative w-full aspect-[3/4] bg-gray-200 dark:bg-gray-700">
+                        <div className="relative w-full aspect-3/4 bg-gray-200 dark:bg-gray-700">
                             <Image
                                 src={bookData.image}
                                 alt={bookData.title}
@@ -51,7 +51,7 @@ export default function BookDetail() {
                 {/* Book Details */}
                 <div className="col-span-1 md:col-span-2">
                     <div className="space-y-6">
-                        {/* Title & Meta */}
+                        {/* Title */}
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900 dark:text-white">
                                 {bookData.title}
@@ -67,7 +67,7 @@ export default function BookDetail() {
                             </div>
                         </div>
 
-                        {/* Book Info Grid */}
+                        {/* Book Info */}
                         <div className="grid grid-cols-2 gap-4 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                             <div>
                                 <p className="text-gray-600 dark:text-gray-400 text-sm font-medium mb-1">Author</p>
@@ -99,11 +99,14 @@ export default function BookDetail() {
                         {/* Action Buttons */}
                         <div className="flex gap-4 flex-wrap pt-4">
                             <button className="flex-1 min-w-50 bg-blue-600 text-white py-3 px-6 rounded-xl font-bold hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
-                                Add to Reading List
+                                ❤️ Like
                             </button>
-                            <button className="flex-1 min-w-50 border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 py-3 px-6 rounded-xl font-bold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                                Share Book
-                            </button>
+                            <Link
+                                href={`/books/${bookId}/read`}
+                                className="flex-1 min-w-50 border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 py-3 px-6 rounded-xl font-bold text-center hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                            >
+                                Read
+                            </Link>
                         </div>
                     </div>
                 </div>
