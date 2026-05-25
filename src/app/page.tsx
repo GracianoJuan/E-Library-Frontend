@@ -1,109 +1,82 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import BookContainer from "../components/BookContainer";
-
-const recommendedBooks = [
-  {
-    id: "1",
-    title: "The Great Gatsby",
-    image: "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg",
-  },
-  {
-    id: "2",
-    title: "Pride and Prejudice",
-    image: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
-  },
-  {
-    id: "3",
-    title: "The Hobbit",
-    image: "https://covers.openlibrary.org/b/isbn/9780547928227-L.jpg",
-  },
-  {
-    id: "4",
-    title: "1984",
-    image: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
-  },
-  {
-    id: "5",
-    title: "To Kill a Mockingbird",
-    image: "https://covers.openlibrary.org/b/isbn/9780061935466-L.jpg",
-  },
-];
-
-const newReleases = [
-  {
-    id: "6",
-    title: "Project Hail Mary",
-    image: "https://covers.openlibrary.org/b/isbn/9780593135204-L.jpg",
-  },
-  {
-    id: "7",
-    title: "Dune",
-    image: "https://covers.openlibrary.org/b/isbn/9780441013593-L.jpg",
-  },
-  {
-    id: "8",
-    title: "The Midnight Library",
-    image: "https://covers.openlibrary.org/b/isbn/9780525559474-L.jpg",
-  },
-  {
-    id: "9",
-    title: "Klara and the Sun",
-    image: "https://covers.openlibrary.org/b/isbn/9780593318171-L.jpg",
-  },
-  {
-    id: "10",
-    title: "Piranesi",
-    image: "https://covers.openlibrary.org/b/isbn/9781635575637-L.jpg",
-  },
-];
-
-const mostLiked = [
-  {
-    id: "11",
-    title: "Atomic Habits",
-    image: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
-  },
-  {
-    id: "12",
-    title: "The Power of Now",
-    image: "https://covers.openlibrary.org/b/isbn/9781577314806-L.jpg",
-  },
-  {
-    id: "13",
-    title: "Educated",
-    image: "https://covers.openlibrary.org/b/isbn/9780399590504-L.jpg",
-  },
-  {
-    id: "14",
-    title: "Sapiens",
-    image: "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg",
-  },
-  {
-    id: "15",
-    title: "The Alchemist",
-    image: "https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg",
-  },
-];
+import { useAuth } from "@/hooks/useAuth";
+import { getMostLikedBooks, getMostReadBooks } from "@/services/BookService";
+import { getRecommendations } from "@/services/RecommendationService";
+import { getToken } from "@/services/AuthService";
+import type { Book } from "@/hooks/useBooks";
 
 export default function Home() {
+  const { isLoggedIn } = useAuth();
+  const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
+  const [mostLikedBooks, setMostLikedBooks] = useState<Book[]>([]);
+  const [mostReadBooks, setMostReadBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBooks = async () => {
+      setIsLoading(true);
+      try {
+        const mostLiked = await getMostLikedBooks(15);
+        setMostLikedBooks(mostLiked);
+
+        const mostRead = await getMostReadBooks(15);
+        setMostReadBooks(mostRead);
+
+        const token = getToken();
+        if (isLoggedIn && token) {
+          try {
+            const recommended = await getRecommendations(15);
+            setRecommendedBooks(recommended);
+          } catch {
+            setRecommendedBooks([]);
+          }
+        } else {
+          setRecommendedBooks([]);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBooks();
+  }, [isLoggedIn]);
+
+  const heroSubtitle = useMemo(
+    () =>
+      isLoggedIn
+        ? "Continue from where you left off and discover books chosen for you."
+        : "Discover books, track your reading, and unlock personal recommendations.",
+    [isLoggedIn]
+  );
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-black text-white py-16 md:py-24 px-4 -mx-4 md:-mx-12 mb-12 rounded-none md:rounded-2xl">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in">
-            Welcome to E-Library
+      <section className="mb-12 rounded-4xl border border-slate-200 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.95),rgba(15,23,42,0.86)_45%,rgba(2,6,23,1)_100%)] px-6 py-16 text-white shadow-2xl shadow-slate-950/20 sm:px-10 md:py-24">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="mb-4 text-sm uppercase tracking-[0.35em] text-white/50">E-Library</p>
+          <h1 className="text-4xl font-black tracking-tight sm:text-6xl md:text-7xl">
+            Find your next book obsession.
           </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 animate-fade-in" style={{animationDelay: '0.1s'}}>
-            Discover thousands of books and find your next favorite read
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/75 sm:text-lg md:text-xl">
+            {heroSubtitle}
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="space-y-16">
-        <BookContainer title="Recommendations" books={recommendedBooks} />
-        <BookContainer title="New Releases" books={newReleases} />
-        <BookContainer title="Most Liked" books={mostLiked} />
+      <div className="space-y-12">
+        {isLoggedIn && recommendedBooks.length > 0 && (
+          <BookContainer title="Recommended for You" books={recommendedBooks} />
+        )}
+        {isLoading ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+            Loading books...
+          </div>
+        ) : null}
+        <BookContainer title="Most Liked" books={mostLikedBooks} />
+        <BookContainer title="Most Read" books={mostReadBooks} />
       </div>
     </div>
   );

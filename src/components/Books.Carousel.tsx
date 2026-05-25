@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useRef } from "react";
 
 interface Book {
-  id: string;
+  id: string | number;
   title: string;
-  image: string;
+  image_url?: string;
+  image?: string;
 }
 
 interface BooksCarouselProps {
@@ -60,9 +61,10 @@ export default function BooksCarousel({ books }: BooksCarouselProps) {
           >
             <div className="relative w-full h-full">
               <Image
-                src={book.image}
+                src={book.image_url ?? book.image ?? "/placeholder-book.png"}
                 alt={book.title}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

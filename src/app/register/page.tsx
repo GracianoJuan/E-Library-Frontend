@@ -1,110 +1,104 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { register } from "@/services/AuthService";
+import { PublicOnly } from "@/components/AuthGuard";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function Register() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+function RegisterForm() {
+	const router = useRouter();
+	const { register, isLoading } = useAuth();
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState<string | null>(null);
+	const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
+	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault();
+		setSubmitting(true);
+		setError(null);
 
-    try {
-      await register({ name, password });
-      router.push("/");
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+		try {
+			await register({ name, email, password });
+			router.replace("/login");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Registration failed");
+		} finally {
+			setSubmitting(false);
+		}
+	};
 
-  return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 md:p-10 border border-gray-100 dark:border-gray-800">
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-              Create Account
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Join E-Library and start reading
-            </p>
-          </div>
+	return (
+		<div className="mx-auto flex min-h-[70vh] w-full max-w-md items-center">
+			<div className="w-full rounded-4xl border border-slate-200 bg-white p-8 shadow-2xl shadow-slate-950/5 dark:border-slate-800 dark:bg-slate-950">
+				<div className="mb-8 text-center">
+					<p className="text-sm uppercase tracking-[0.3em] text-slate-500">Create account</p>
+					<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 dark:text-white">Register</h1>
+					<p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Set up your account to save history and get recommendations.</p>
+				</div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                Username
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 focus:outline-none transition-all duration-200"
-                placeholder="choose a username"
-                required
-                minLength={3}
-              />
-            </div>
+				<form onSubmit={handleSubmit} className="space-y-5">
+					<label className="block">
+						<span className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Name</span>
+						<input
+							type="text"
+							value={name}
+							onChange={(event) => setName(event.target.value)}
+							required
+							className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-white"
+							placeholder="Your name"
+						/>
+					</label>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 focus:bg-white dark:focus:bg-gray-700 focus:outline-none transition-all duration-200 pr-12"
-                  placeholder="Create a password"
-                  required
-                  minLength={6}
-                />
-                <button
-                  type="button"
-                  onClick={() => setPasswordVisible((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
-                >
-                  {passwordVisible ? "Hide" : "Show"}
-                </button>
-              </div>
-            </div>
+					<label className="block">
+						<span className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Email</span>
+						<input
+							type="email"
+							value={email}
+							onChange={(event) => setEmail(event.target.value)}
+							required
+							className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-white"
+							placeholder="you@example.com"
+						/>
+					</label>
 
-            {error ? (
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-            ) : null}
+					<label className="block">
+						<span className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Password</span>
+						<input
+							type="password"
+							value={password}
+							onChange={(event) => setPassword(event.target.value)}
+							required
+							className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-950 outline-none transition focus:border-slate-950 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-white"
+							placeholder="••••••••"
+						/>
+					</label>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-bold text-lg hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0"
-            >
-              {isSubmitting ? "Creating Account..." : "Register"}
-            </button>
-          </form>
+					{error ? <p className="text-sm text-red-500">{error}</p> : null}
 
-          <p className="text-center text-gray-600 dark:text-gray-400 mt-6">
-            Already have an account?
-            <Link href="/login" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors ml-1">
-              Sign in
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+					<button
+						type="submit"
+						disabled={submitting || isLoading}
+						className="w-full rounded-2xl bg-slate-950 px-4 py-3 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+					>
+						{submitting ? "Creating account..." : "Register"}
+					</button>
+				</form>
+
+				<p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+					Already have an account? <Link href="/login" className="font-semibold text-slate-950 dark:text-white">Login</Link>
+				</p>
+			</div>
+		</div>
+	);
+}
+
+export default function RegisterPage() {
+	return (
+		<PublicOnly>
+			<RegisterForm />
+		</PublicOnly>
+	);
 }

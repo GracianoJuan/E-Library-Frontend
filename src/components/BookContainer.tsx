@@ -3,7 +3,8 @@ import BooksCarousel from "./Books.Carousel";
 interface Book {
   id: string;
   title: string;
-  image: string;
+  image_url?: string;
+  image?: string;
 }
 
 interface BookContainerProps {

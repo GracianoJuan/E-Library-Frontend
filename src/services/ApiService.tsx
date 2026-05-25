@@ -3,29 +3,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 type RequestOptions = {
 	method?: string;
 	body?: unknown;
-	withCsrf?: boolean;
+	withAuth?: boolean;
 };
 
-let csrfTokenCache: string | null; 
-
-async function ensureCsrfToken(): Promise<string> {
-	if (csrfTokenCache) {
-		return csrfTokenCache;
-	}
-
-	const response = await fetch(`${API_BASE_URL}/auth/csrf`, {
-		method: "GET",
-		credentials: "include",
-	});
-
-	if (!response.ok) {
-		throw new Error("Failed to initialize CSRF token");
-	}
-
-	const data = await response.json();
-	csrfTokenCache = data.csrfToken;
-
-	return csrfTokenCache; // error because it isnt asignable to null
+function getAuthToken(): string | null {
+	if (typeof window === "undefined") return null;
+	return localStorage.getItem("access_token");
 }
 
 export async function apiRequest<T>(
@@ -37,9 +20,10 @@ export async function apiRequest<T>(
 		"Content-Type": "application/json",
 	};
 
-	if (options.withCsrf) {
-		const csrfToken = await ensureCsrfToken();
-		headers["X-CSRF-Token"] = csrfToken;
+	// Add authorization header if token exists and withAuth is not false
+	const token = getAuthToken();
+	if (options.withAuth !== false && token) {
+		headers["Authorization"] = `Bearer ${token}`;
 	}
 
 	const response = await fetch(`${API_BASE_URL}${path}`, {
@@ -68,5 +52,5 @@ export async function apiRequest<T>(
 }
 
 export function clearCsrfTokenCache() {
-	csrfTokenCache = null;
+	const csrfTokenCache = null;
 }

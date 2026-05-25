@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "covers.openlibrary.org",
       },
+      {
+        protocol: "https",
+        hostname: "images-na.ssl-images-amazon.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.ssl-images-amazon.com",
+      },
     ],
   },
 };
