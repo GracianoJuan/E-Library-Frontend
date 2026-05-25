@@ -28,7 +28,7 @@ export default function Home() {
         const token = getToken();
         if (isLoggedIn && token) {
           try {
-            const recommended = await getRecommendations(15);
+            const recommended = await getRecommendations(10);
             setRecommendedBooks(recommended);
           } catch {
             setRecommendedBooks([]);

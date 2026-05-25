@@ -69,6 +69,19 @@ export async function getBookRecommendations(
 	return apiRequest<Book[]>(`/books/${bookId}/recommendations?${searchParams.toString()}`);
 }
 
+export type BookContentInfo = {
+	id: number;
+	page_numbers: number[];
+};
+
+export async function getBookContentInfo(bookId: number): Promise<BookContentInfo> {
+	return apiRequest<BookContentInfo>(`/books/${bookId}/content`);
+}
+
+export function getBookContentPageUrl(bookId: number, pageNumber: number): string {
+	return `${API_BASE_URL}/books/${bookId}/content/${pageNumber}`;
+}
+
 export function getBookPdfUrl(bookId: number): string {
 	return `${API_BASE_URL}/books/${bookId}/pdf`;
 }

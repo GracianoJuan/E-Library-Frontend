@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Book {
   id: string | number;
@@ -22,14 +22,87 @@ interface BooksCarouselProps {
 
 export default function BooksCarousel({ books }: BooksCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const dragStateRef = useRef({
+    isPointerDown: false,
+    isDragging: false,
+    startX: 0,
+    lastX: 0,
+    moved: false,
+  });
+  const [isDragging, setIsDragging] = useState(false);
 
   const scroll = (direction: "left" | "right") => {
     if (!carouselRef.current) return;
-    const width = carouselRef.current.offsetWidth;
+    const firstItem = carouselRef.current.querySelector<HTMLElement>("a");
+    const itemWidth = firstItem?.offsetWidth ?? carouselRef.current.offsetWidth * 0.6;
+    const gap = Number.parseFloat(getComputedStyle(carouselRef.current).gap || "0") || 0;
+    const distance = itemWidth + gap;
     carouselRef.current.scrollBy({
-      left: direction === "left" ? -width : width,
+      left: direction === "left" ? -distance : distance,
       behavior: "smooth",
     });
+  };
+
+  const endDrag = () => {
+    dragStateRef.current.isPointerDown = false;
+    dragStateRef.current.isDragging = false;
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    const handleWindowPointerUp = () => {
+      endDrag();
+    };
+
+    window.addEventListener("pointerup", handleWindowPointerUp);
+    window.addEventListener("pointercancel", handleWindowPointerUp);
+
+    return () => {
+      window.removeEventListener("pointerup", handleWindowPointerUp);
+      window.removeEventListener("pointercancel", handleWindowPointerUp);
+    };
+  }, []);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!carouselRef.current) return;
+
+    dragStateRef.current = {
+      isPointerDown: true,
+      isDragging: false,
+      startX: event.clientX,
+      lastX: event.clientX,
+      moved: false,
+    };
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragStateRef.current.isPointerDown) return;
+
+    dragStateRef.current.lastX = event.clientX;
+    const deltaX = event.clientX - dragStateRef.current.startX;
+    if (!dragStateRef.current.isDragging && Math.abs(deltaX) > 20) {
+      dragStateRef.current.isDragging = true;
+      setIsDragging(true);
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+
+    if (Math.abs(deltaX) > 20) {
+      dragStateRef.current.moved = true;
+    }
+  };
+
+  const handlePointerUp = () => {
+    if (!dragStateRef.current.isPointerDown) return;
+
+    if (dragStateRef.current.moved) {
+      const deltaX = dragStateRef.current.startX - dragStateRef.current.lastX;
+      if (deltaX > 20) {
+        scroll("right");
+      } else if (deltaX < -20) {
+        scroll("left");
+      }
+    }
+    endDrag();
   };
 
   return (
@@ -51,7 +124,12 @@ export default function BooksCarousel({ books }: BooksCarouselProps) {
       {/* scrollable area */}
       <div
         ref={carouselRef}
-        className="flex overflow-x-auto gap-6 scroll-smooth pb-2 px-2"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        className={`flex overflow-x-auto gap-6 scroll-smooth pb-2 px-2 snap-x snap-mandatory select-none touch-pan-y ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
       >
         {books.map((book) => (
           <Link
@@ -66,6 +144,7 @@ export default function BooksCarousel({ books }: BooksCarouselProps) {
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
+                draggable={false}
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                 <p className="text-white font-semibold text-sm line-clamp-3">{book.title}</p>

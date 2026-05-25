@@ -176,7 +176,7 @@ export default function BookDetailPage() {
 
 	return (
 		<div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
-			<div className="lg:sticky lg:top-24 lg:h-fit">
+			<div className="lg:h-fit">
 				<div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-2xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-950">
 					<div className="relative aspect-3/4 w-full bg-slate-100 dark:bg-slate-900">
 						<Image

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { RequireAuth } from "@/components/AuthGuard";
-import PdfReader from "@/components/PdfReader";
-import { getBook, getBookPdfUrl } from "@/services/BookService";
+import BookImageReader from "@/components/BookImageReader";
+import { getBook } from "@/services/BookService";
 import type { Book } from "@/hooks/useBooks";
 
 function ReaderContent() {
@@ -54,7 +54,7 @@ function ReaderContent() {
 						Back
 					</Link>
 				</div>
-				<div className="py-8 text-sm text-slate-600 dark:text-slate-300">This book does not have a PDF content file yet.</div>
+				<div className="py-8 text-sm text-slate-600 dark:text-slate-300">This book does not have image content yet.</div>
 			</div>
 		);
 	}
@@ -72,7 +72,7 @@ function ReaderContent() {
 				</Link>
 			</div>
 
-			<PdfReader pdfUrl={getBookPdfUrl(book.id)} />
+			<BookImageReader bookId={book.id} />
 		</div>
 	);
 }

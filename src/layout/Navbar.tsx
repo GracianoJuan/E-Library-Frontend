@@ -16,11 +16,6 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/about" className="font-medium text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-300 dark:hover:text-white">
-                            About
-                        </Link>
-                    </li>
-                    <li>
                         <Link href="/history" className="font-medium text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-300 dark:hover:text-white">
                             History
                         </Link>

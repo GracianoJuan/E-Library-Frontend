@@ -17,7 +17,7 @@ export function useRecommendations(): UseRecommendations {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const fetchRecommendations = useCallback(async (limit = 15) => {
+	const fetchRecommendations = useCallback(async (limit = 10) => {
 		setIsLoading(true);
 		setError(null);
 		try {
