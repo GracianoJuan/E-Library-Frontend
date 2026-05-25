@@ -1,11 +1,5 @@
 import BooksCarousel from "./Books.Carousel";
-
-interface Book {
-  id: string;
-  title: string;
-  image_url?: string;
-  image?: string;
-}
+import type { Book } from "@/hooks/useBooks";
 
 interface BookContainerProps {
   title: string;
