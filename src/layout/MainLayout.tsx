@@ -7,7 +7,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <div className="min-h-screen flex flex-col bg-white dark:bg-black">
             <Header />
             <Navbar />
-            <main className="grow max-w-7xl w-full mx-auto px-4 py-8 md:py-12">
+            <main className="grow w-full max-w-7xl mx-auto px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
                 {children}
             </main>
             <Footer />

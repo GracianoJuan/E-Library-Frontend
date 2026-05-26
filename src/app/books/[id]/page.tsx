@@ -175,8 +175,8 @@ export default function BookDetailPage() {
 	}
 
 	return (
-		<div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
-			<div className="lg:h-fit">
+		<div className="grid gap-8 grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)] lg:grid-cols-[320px_minmax(0,1fr)]">
+			<div>
 				<div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-2xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-950">
 					<div className="relative aspect-3/4 w-full bg-slate-100 dark:bg-slate-900">
 						<Image
@@ -208,11 +208,12 @@ export default function BookDetailPage() {
 					</div>
 				</div>
 			</div>
+            
 
 			<div className="space-y-6">
 				<div>
 					<p className="text-sm uppercase tracking-[0.3em] text-slate-500">Book Detail</p>
-					<h1 className="mt-3 text-4xl font-black tracking-tight text-slate-950 dark:text-white">{book.title}</h1>
+					<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl dark:text-white">{book.title}</h1>
 					<p className="mt-2 text-base text-slate-500">By {book.author}</p>
 				</div>
 

@@ -51,37 +51,37 @@ function HistoryContent() {
 	}
 
 	return (
-		<div className="space-y-5">
+		<div className="space-y-6">
 			<div>
-				<p className="text-xs uppercase tracking-[0.3em] text-slate-500">History</p>
-				<h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 dark:text-white">Reading History</h1>
+				<p className="text-sm uppercase tracking-[0.3em] text-slate-500">History</p>
+				<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl dark:text-white">Reading History</h1>
 			</div>
 
-			<div className="grid justify-items-start gap-4 sm:grid-cols-2 xl:grid-cols-3">
+			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
 				{history.map((item) => (
 					<div
 						key={item.id}
-						className="group w-full max-w-60 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-slate-950"
+						className="group overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-lg shadow-slate-950/5 transition hover:-translate-y-1 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-950"
 					>
-						<Link href={`/books/${item.book.id}`} className="block">
-							<div className="relative aspect-4/5 w-full bg-slate-100 dark:bg-slate-900">
-								<Image src={item.book.image_url} alt={item.book.title} fill className="object-cover" />
-							</div>
-							<div className="space-y-1 p-3">
-								<p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Read at</p>
-								<p className="text-[10px] text-slate-600 dark:text-slate-300">{new Date(item.read_at).toLocaleString()}</p>
-								<h2 className="text-sm font-semibold leading-snug text-slate-900 dark:text-white line-clamp-2">{item.book.title}</h2>
-								<p className="text-[10px] text-slate-500 line-clamp-1">{item.book.author}</p>
-							</div>
+						<Link href={`/books/${item.book.id}`}>
+							<div className="relative aspect-3/4 w-full bg-slate-100 dark:bg-slate-900">
+							<Image src={item.book.image_url} alt={item.book.title} fill className="object-cover" />
+						</div>
+							<div className="space-y-2 p-5">
+							<p className="text-xs uppercase tracking-[0.2em] text-slate-500">Read at</p>
+							<p className="text-sm text-slate-600 dark:text-slate-300">{new Date(item.read_at).toLocaleString()}</p>
+							<h2 className="text-xl font-bold text-slate-950 dark:text-white">{item.book.title}</h2>
+							<p className="text-sm text-slate-500">{item.book.author}</p>
+						</div>
 						</Link>
-						<div className="px-3 pb-3">
+						<div className="px-5 pb-5">
 							<button
 								type="button"
 								onClick={() => handleDelete(item.book.id)}
 								disabled={deletingBookId === item.book.id}
-								className="w-full rounded-xl border border-rose-200 px-2.5 py-1.5 text-[10px] font-semibold text-rose-600 transition hover:border-rose-400 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-rose-900/60 dark:text-rose-300 dark:hover:bg-rose-950/40"
+								className="w-full rounded-2xl border border-rose-200 px-4 py-2.5 text-sm font-semibold text-rose-600 transition hover:border-rose-400 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-rose-900/60 dark:text-rose-300 dark:hover:bg-rose-950/40"
 							>
-								{deletingBookId === item.book.id ? "Deleting..." : "Delete"}
+								{deletingBookId === item.book.id ? "Deleting..." : "Delete from history"}
 							</button>
 						</div>
 					</div>
@@ -89,7 +89,7 @@ function HistoryContent() {
 			</div>
 
 			{history.length === 0 ? (
-				<div className="rounded-3xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+				<div className="rounded-3xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
 					No reading history yet.
 				</div>
 			) : null}

@@ -1,8 +1,8 @@
 export default function Footer() {
     return (
-        <footer className="bg-black text-white p-8 mt-12 border-t border-gray-700">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <footer className="mt-12 border-t border-gray-700 bg-black px-4 py-8 text-white sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl">
+                <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3">
                     <div>
                         <h3 className="font-bold text-lg mb-3">About E-Library</h3>
                         <p className="text-gray-400 text-sm">A platform for discovering and exploring books.</p>

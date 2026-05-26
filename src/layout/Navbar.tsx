@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Navbar() {
     return (
         <nav className="border-b border-slate-200 bg-white/80 text-slate-900 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-950/80 dark:text-white sticky top-0 z-40">
-            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6 sm:px-6 lg:px-8">
-                <ul className="flex items-center gap-8">
+            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-8">
+                <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-8">
                     <li>
                         <Link href="/" className="font-medium text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-300 dark:hover:text-white">
                             Home
@@ -22,7 +22,7 @@ export default function Navbar() {
                     </li>
                 </ul>
 
-                <form className="flex w-full max-w-xl items-center gap-2 lg:mx-6">
+                <form className="flex w-full max-w-xl flex-col gap-2 sm:flex-row sm:items-center lg:mx-6">
                     <input
                         type="search"
                         name="q"
@@ -31,7 +31,7 @@ export default function Navbar() {
                     />
                     <button
                         type="submit"
-                        className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+                        className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800 sm:self-start dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
                     >
                         Search
                     </button>

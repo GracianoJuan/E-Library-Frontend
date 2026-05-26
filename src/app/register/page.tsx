@@ -31,8 +31,8 @@ function RegisterForm() {
 	};
 
 	return (
-		<div className="mx-auto flex min-h-[70vh] w-full max-w-md items-center">
-			<div className="w-full rounded-4xl border border-slate-200 bg-white p-8 shadow-2xl shadow-slate-950/5 dark:border-slate-800 dark:bg-slate-950">
+		<div className="mx-auto flex min-h-[70vh] w-full max-w-md items-center px-4 py-8 sm:px-6 lg:px-8">
+			<div className="w-full rounded-4xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/5 sm:p-8 dark:border-slate-800 dark:bg-slate-950">
 				<div className="mb-8 text-center">
 					<p className="text-sm uppercase tracking-[0.3em] text-slate-500">Create account</p>
 					<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 dark:text-white">Register</h1>

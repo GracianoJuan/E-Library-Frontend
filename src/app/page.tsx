@@ -28,7 +28,7 @@ export default function Home() {
         const token = getToken();
         if (isLoggedIn && token) {
           try {
-            const recommended = await getRecommendations(10);
+            const recommended = await getRecommendations(15);
             setRecommendedBooks(recommended);
           } catch {
             setRecommendedBooks([]);
@@ -54,13 +54,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <section className="mb-12 rounded-4xl border border-slate-200 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.95),rgba(15,23,42,0.86)_45%,rgba(2,6,23,1)_100%)] px-6 py-16 text-white shadow-2xl shadow-slate-950/20 sm:px-10 md:py-24">
+      <section className="mb-10 rounded-4xl border border-slate-200 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.95),rgba(15,23,42,0.86)_45%,rgba(2,6,23,1)_100%)] px-5 py-12 text-white shadow-2xl shadow-slate-950/20 sm:px-8 sm:py-16 md:mb-12 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-4 text-sm uppercase tracking-[0.35em] text-white/50">E-Library</p>
-          <h1 className="text-4xl font-black tracking-tight sm:text-6xl md:text-7xl">
+          <p className="mb-4 text-xs uppercase tracking-[0.35em] text-white/50 sm:text-sm">E-Library</p>
+          <h1 className="text-3xl font-black tracking-tight sm:text-5xl md:text-7xl">
             Find your next book obsession.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-white/75 sm:text-lg md:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-white/75 sm:text-lg md:text-xl">
             {heroSubtitle}
           </p>
         </div>
