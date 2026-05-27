@@ -10,7 +10,7 @@ export default function ExplorePage() {
     const [books, setBooks] = useState<Book[]>([]);
     const [genres, setGenres] = useState<string[]>(["All"]);
     const [genre, setGenre] = useState<string>("All");
-    const [searchField, setSearchField] = useState<"author" | "publisher">("author");
+    const [searchField, setSearchField] = useState<"author" | "publisher" | "title">("title");
     const [query, setQuery] = useState<string>("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -43,7 +43,7 @@ export default function ExplorePage() {
         try {
             const data = await getExploreBooks({
                 limit: 12,
-                    genre,
+                genre,
                 searchField,
                 query,
             });
@@ -91,11 +91,12 @@ export default function ExplorePage() {
                                 <select
                                     aria-label="Search field"
                                     value={searchField}
-                                    onChange={(e) => setSearchField(e.target.value as "author" | "publisher")}
+                                    onChange={(e) => setSearchField(e.target.value as "author" | "publisher" | "title")}
                                     className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-800 dark:bg-slate-900"
                                 >
                                     <option value="author">Author</option>
                                     <option value="publisher">Publisher</option>
+                                    <option value="title">Title</option>
                                 </select>
                             </label>
 

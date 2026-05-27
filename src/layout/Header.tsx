@@ -9,9 +9,12 @@ export default function Header() {
     return (
         <header className="border-b border-slate-200 bg-white/90 backdrop-blur supports-backdrop-filter:bg-white/70 dark:border-slate-800 dark:bg-slate-950/90">
             <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-8">
-                <div>
-                    <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl dark:text-white">E-Library</h1>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Discover your next favorite book</p>
+                <div className="flex items-center gap-4">
+                    <img src="/logo%20(2).png" alt="E-Library logo" className="h-12 w-12 rounded-md object-contain" />
+                    <div>
+                        <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl dark:text-white">E-Library</h1>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Discover your next favorite book</p>
+                    </div>
                 </div>
 
                 {isLoggedIn && user ? (

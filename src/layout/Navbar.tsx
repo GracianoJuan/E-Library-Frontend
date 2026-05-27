@@ -20,22 +20,12 @@ export default function Navbar() {
                             History
                         </Link>
                     </li>
+                    <li>
+                        <Link href="/liked" className="font-medium text-slate-600 transition-colors hover:text-slate-950 dark:text-slate-300 dark:hover:text-white">
+                            Liked
+                        </Link>
+                    </li>
                 </ul>
-
-                <form className="flex w-full max-w-xl flex-col gap-2 sm:flex-row sm:items-center lg:mx-6">
-                    <input
-                        type="search"
-                        name="q"
-                        placeholder="Search books..."
-                        className="w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-sm text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-slate-950 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-white"
-                    />
-                    <button
-                        type="submit"
-                        className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800 sm:self-start dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
-                    >
-                        Search
-                    </button>
-                </form>
             </div>
         </nav>
     );
