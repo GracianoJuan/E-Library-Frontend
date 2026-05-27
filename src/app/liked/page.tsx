@@ -7,18 +7,18 @@ import { RequireAuth } from "@/components/AuthGuard";
 import { deleteLikedBook, getLikedBooks, type LikedItem } from "@/services/LikedService";
 
 function LikedContent() {
-	const [likedBooks, setLikedBooks] = useState<LikedItem[]>([]);
+	const [liked, setLiked] = useState<LikedItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [deletingBookId, setDeletingBookId] = useState<number | null>(null);
+	const [processingBookId, setProcessingBookId] = useState<number | null>(null);
 
 	useEffect(() => {
-		const loadLikedBooks = async () => {
+		const loadLiked = async () => {
 			setLoading(true);
 			setError(null);
 			try {
 				const data = await getLikedBooks();
-				setLikedBooks(data);
+				setLiked(data);
 			} catch (err) {
 				setError(err instanceof Error ? err.message : "Failed to load liked books");
 			} finally {
@@ -26,19 +26,19 @@ function LikedContent() {
 			}
 		};
 
-		loadLikedBooks();
+		loadLiked();
 	}, []);
 
-	const handleDelete = async (bookId: number) => {
-		setDeletingBookId(bookId);
+	const handleUnlike = async (bookId: number) => {
+		setProcessingBookId(bookId);
 		setError(null);
 		try {
 			await deleteLikedBook(bookId);
-			setLikedBooks((current) => current.filter((item) => item.book.id !== bookId));
+			setLiked((current) => current.filter((item) => item.book.id !== bookId));
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "Failed to remove liked book");
+			setError(err instanceof Error ? err.message : "Failed to unlike book");
 		} finally {
-			setDeletingBookId(null);
+			setProcessingBookId(null);
 		}
 	};
 
@@ -57,8 +57,8 @@ function LikedContent() {
 				<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl dark:text-white">Liked Books</h1>
 			</div>
 
-			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-				{likedBooks.map((item) => (
+			<div className="grid gap-4 sm:grid-cols-4 xl:grid-cols-5">
+				{liked.map((item) => (
 					<div
 						key={item.id}
 						className="group overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-lg shadow-slate-950/5 transition hover:-translate-y-1 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-950"
@@ -77,18 +77,18 @@ function LikedContent() {
 						<div className="px-5 pb-5">
 							<button
 								type="button"
-								onClick={() => handleDelete(item.book.id)}
-								disabled={deletingBookId === item.book.id}
+								onClick={() => handleUnlike(item.book.id)}
+								disabled={processingBookId === item.book.id}
 								className="w-full rounded-2xl border border-rose-200 px-4 py-2.5 text-sm font-semibold text-rose-600 transition hover:border-rose-400 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-rose-900/60 dark:text-rose-300 dark:hover:bg-rose-950/40"
 							>
-								{deletingBookId === item.book.id ? "Removing..." : "Remove from liked"}
+								{processingBookId === item.book.id ? "Processing..." : "Unlike"}
 							</button>
 						</div>
 					</div>
 				))}
 			</div>
 
-			{likedBooks.length === 0 ? (
+			{liked.length === 0 ? (
 				<div className="rounded-3xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
 					No liked books yet.
 				</div>

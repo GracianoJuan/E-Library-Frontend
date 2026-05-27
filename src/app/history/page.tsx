@@ -57,7 +57,7 @@ function HistoryContent() {
 				<h1 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl dark:text-white">Reading History</h1>
 			</div>
 
-			<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+			<div className="grid gap-4 sm:grid-cols-4 xl:grid-cols-5">
 				{history.map((item) => (
 					<div
 						key={item.id}

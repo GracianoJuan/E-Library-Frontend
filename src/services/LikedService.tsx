@@ -8,8 +8,8 @@ export type LikedItem = {
 	book: Book;
 };
 
-export async function getLikedBooks(limit = 100): Promise<LikedItem[]> {
-	return apiRequest<LikedItem[]>(`/books/liked?limit=${limit}`);
+export async function getLikedBooks(): Promise<LikedItem[]> {
+	return apiRequest<LikedItem[]>("/books/liked");
 }
 
 export async function deleteLikedBook(bookId: number): Promise<{ id: number; total_likes: number }> {
