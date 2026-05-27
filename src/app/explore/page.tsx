@@ -15,6 +15,15 @@ export default function ExplorePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const filterBooksByTitle = (items: Book[], keyword: string) => {
+        const trimmed = keyword.trim().toLowerCase();
+        if (!trimmed) {
+            return items;
+        }
+
+        return items.filter((book) => book.title.toLowerCase().includes(trimmed));
+    };
+
     useEffect(() => {
         const loadInitialData = async () => {
             setIsLoading(true);
@@ -41,13 +50,14 @@ export default function ExplorePage() {
         setIsLoading(true);
         setError(null);
         try {
+            const isTitleSearch = searchField === "title";
             const data = await getExploreBooks({
                 limit: 12,
                 genre,
-                searchField,
+                searchField: isTitleSearch ? undefined : searchField,
                 query,
             });
-            setBooks(data);
+            setBooks(isTitleSearch ? filterBooksByTitle(data, query) : data);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to search books");
         } finally {
@@ -123,7 +133,7 @@ export default function ExplorePage() {
                             type="button"
                             onClick={async () => {
                                 setGenre("All");
-                                setSearchField("author");
+                                setSearchField("title");
                                 setQuery("");
                                 setIsLoading(true);
                                 setError(null);
