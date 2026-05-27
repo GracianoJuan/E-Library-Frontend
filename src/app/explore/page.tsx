@@ -50,14 +50,13 @@ export default function ExplorePage() {
         setIsLoading(true);
         setError(null);
         try {
-            const isTitleSearch = searchField === "title";
             const data = await getExploreBooks({
                 limit: 12,
                 genre,
-                searchField: isTitleSearch ? undefined : searchField,
+                searchField: searchField,
                 query,
             });
-            setBooks(isTitleSearch ? filterBooksByTitle(data, query) : data);
+            setBooks(data);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to search books");
         } finally {

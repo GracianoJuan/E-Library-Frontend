@@ -23,7 +23,7 @@ export async function getExploreBooks(params: {
 	limit?: number;
 	genre?: string;
 	category?: string;
-	searchField?: "author" | "publisher";
+	searchField?: "author" | "publisher" | "title";
 	query?: string;
 } = {}): Promise<Book[]> {
 	const searchParams = new URLSearchParams();
