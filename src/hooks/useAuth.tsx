@@ -77,8 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const register = useCallback(async (payload: RegisterPayload) => {
 		setIsLoading(true);
 		try {
-			const response = await registerRequest(payload);
-			setUser(response.user);
+			await registerRequest(payload);
 		} finally {
 			setIsLoading(false);
 		}
