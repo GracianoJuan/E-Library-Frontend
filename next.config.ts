@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.ssl-images-amazon.com",
       },
+      {
+        protocol: 'https',
+        hostname: 'image.gramedia.net',
+      },
     ],
   },
 };

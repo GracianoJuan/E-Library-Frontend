@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   description: "Your ultimate platform for discovering, exploring, and connecting with books and fellow readers worldwide. Access thousands of books across all genres.",
   keywords: ["books", "library", "reading", "recommendations", "ebook"],
   authors: [{ name: "E-Library Team" }],
+  icons: {
+    icon: "next.svg",
+  }
 };
 
 export default function RootLayout({
